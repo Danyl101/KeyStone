@@ -9,20 +9,20 @@ CORS(app)
 
 from .utils import logging
 
-bp = Blueprint("programs_api", __name__)
+bp = Blueprint("programs_api", __name__) #Defines blueprint for the api 
 
-@bp.route("/api/run-scrape", methods=["POST"])
+@bp.route("/api/run-scrape", methods=["POST"]) #Web Link Endpoint
 def scrape():
     try:
-        data=run_scrape()
+        data=run_scrape() #Runs python file from backend
         return jsonify({"status":"success"})
     except Exception as e:
         logging.error(f"Failed to run scraping {e}")
 
-@bp.route("/api/run-extract",methods=["POST"])
+@bp.route("/api/run-extract",methods=["POST"]) #Web Link Endpoint
 def extract():
     try:
-        data=extract_run()
+        data=extract_run() #Runs python file from backend
         return jsonify({"status":"success"})
     except Exception as e:
         logging.error(f"Failed to run extraction {e}")  

@@ -39,12 +39,13 @@ def log_cpu_memory(tag=""):
         
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
                 
+#Function to evaluate metrics
 def evaluate_metrics(y_true, y_pred):
     try:
-        y_true = y_true.detach().cpu().numpy()
+        y_true = y_true.detach().cpu().numpy() #Detaches array from cpu and converts into numpy
         y_pred = y_pred.detach().cpu().numpy()
         
-        mse = mean_squared_error(y_true, y_pred)
+        mse = mean_squared_error(y_true, y_pred) #Calculate Metrics
         rmse = mse ** 0.5
         mae = mean_absolute_error(y_true, y_pred)
         mape = (np.abs((y_true - y_pred) / y_true)).mean() * 100
@@ -55,6 +56,7 @@ def evaluate_metrics(y_true, y_pred):
 
     return mse, rmse, mae, mape #Returns various metrics
     
+#Validation function (Validation data)
 def evaluate(model, loader):
     log_cpu_memory("Before Trial")
     criterion = nn.MSELoss()
@@ -70,6 +72,7 @@ def evaluate(model, loader):
     log_cpu_memory("After Trial")        
     return total_loss
 
+#Prediction function(Test Data)
 def predict(model, loader):
     model.eval()
     preds, targets = [], [] #Defines empty lists to store predictions and targets

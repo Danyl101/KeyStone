@@ -34,11 +34,10 @@ class BiLSTMModel(nn.Module):
         #Defines movement of data through the model
         def forward(self, x):
             out, _ = self.lstm(x)
-            context,attn_weights=self.attention(out)
-            out_dropped = self.dropout(context)
-            output=self.fc(out_dropped).view(-1)
-            return output,attn_weights,out #Removes last dimension from output tensor
-
+            context,attn_weights=self.attention(out) #Feeds lstm output into attention
+            out_dropped = self.dropout(context) 
+            output=self.fc(out_dropped).view(-1) #Removes last dimension from output tensor
+            return output,attn_weights,out  
 def objective(trial):
     try:
         logging.info(f"Starting trial {trial.number}")
@@ -68,7 +67,7 @@ def objective(trial):
             model.train()
             for xb, yb in train_loader: #Loads input features and target features
                 xb, yb = xb.to(device), yb.to(device)               
-                optimizer.zero_grad() #Resets optimizer back to zero gradient after every epoch
+                optimizer.zero_grad() #Resets optimizer back to zero gradient after every batch
                 output,_,_ = model(xb)
                 loss = train_criterion(output, yb) #Checks models output with the actual output
                 loss.backward() #Propagates backwards and finds gradients of loss 
@@ -96,9 +95,9 @@ def objective(trial):
             torch.save(model.state_dict(), f"checkpoints/best_model_trial_{trial.number}.pt")
         except Exception as e:
             logging.error(f"Directory creation failed {e}")
-        #Acts as garbage and avoids optuna from taking existing values 
+        #Acts as garbage collector and avoids optuna from taking existing values 
         del model
-        del optimizer
+        del optimizer 
         torch.cuda.empty_cache()  # no GPU, but still clears PyTorch cache
         gc.collect()
         return mse
@@ -114,10 +113,10 @@ class TimeWeightedLoss(nn.Module):
             super().__init__()
         def forward(self, y_pred, y_true):
             try:
-                seq_len = y_true.shape[0]
-                Time_weights = torch.linspace(1.0,2.0, steps=seq_len).to(y_pred.device)
-                calc_weights=torch.mean((y_pred - y_true) ** 2)*Time_weights
-                calc_weights_mean=calc_weights.mean()
+                seq_len = y_true.shape[0] #Gets sequence length
+                Time_weights = torch.linspace(1.0,2.0, steps=seq_len).to(y_pred.device) #Generates increasing weights
+                calc_weights=torch.mean((y_pred - y_true) ** 2)*Time_weights #Calculates weights
+                calc_weights_mean=calc_weights.mean() 
                 return calc_weights_mean
             except Exception as e:
                 logging.error(f"Error in TimeWeightedLoss: {e}")
@@ -127,12 +126,14 @@ class TimeWeightedLoss(nn.Module):
 class Attention(nn.Module):
     def __init__(self,hidden_dim):
         super().__init__()
-        self.attention=nn.Linear(hidden_dim,1)
+        self.attention=nn.Linear(hidden_dim,1) #Defines attention layer using hidden size
     
     def forward(self,lstm_output):
-        energy=self.attention(lstm_output)  #B,T,1
-        weights=F.softmax(energy.squeeze(-1),dim=1)   #B,T
-        context=torch.bmm(weights.unsqueeze(1),lstm_output).squeeze(1) #B,H
+        energy=self.attention(lstm_output)  #Gets lstm output [B,T,1]
+        weights=F.softmax(energy.squeeze(-1),dim=1) #Removes last dimension [B,T,1]-> [B,T]
+        context=torch.bmm(weights.unsqueeze(1),lstm_output).squeeze(1) #Changes shape from [B,T]->[B,1,T] 
+                                                                       #Multiplied with lstm out [B,1,T]->[B,1,H]
+                                                                       #Squeeze remove dimension 1 [B,1,H]->[B,H]
         return context,weights
         
         

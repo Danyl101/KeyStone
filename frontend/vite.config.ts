@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       api: path.resolve(__dirname, 'src/api'),
+      components: path.resolve(__dirname, 'src/components'),
+      typescript_api: path.resolve(__dirname, 'src/typescript_api'),
     },
   },
 });

@@ -16,7 +16,7 @@ def train_model():
         total_train_loss = 0
         for x, y in train_loader:
             x, y = x.to(device), y.to(device)
-            preds,_,_ = model(x)
+            preds,_,_ = model(x) 
             loss = criterion_train(preds, y)
             
             optimizer.zero_grad() #Resets accumulated gradients from previous batch
