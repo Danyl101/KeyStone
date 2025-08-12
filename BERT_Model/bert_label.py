@@ -1,15 +1,21 @@
 import torch
 import pandas as pd
 from transformers import BertTokenizer, BertModel
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch.nn as nn
 import numpy as np
 import os
 import csv
 import traceback
+import torch.nn.functional as F
 
 from utils import logging
 
 torch.manual_seed(42)
+
+device="cuda" if torch.cuda.is_available() else "cpu"
+
+class_names=["negative","neutral","positive"]
 
 class BERT_Classifier(nn.Module):
     def __init__(self,num_classes=2,dropout=0.3,pretrained_model="yiyanghkust/finbert-tone"):
@@ -42,24 +48,30 @@ def text_encoding(text,max_text=1500,step=1000):
 
 def logits_pass(encodings):
     try:
-        all_probs=[]
-        for encoding in encodings:
-            probs=model(input_ids=encoding['input_ids'], attention_mask=encoding['attention_mask'])
-            all_probs.append(probs)
-        all_probs_tensor=torch.cat(all_probs,dim=0)
-        logging.info("Logits pass execution successful")
+        agg_logits=None
+        with torch.no_grad():
+            for enc in encodings:
+                input_ids=input_ids['enc'].to(device)
+                attention_mask=attention_mask['enc'].to(device)
+                output=model(input_ids=input_ids,attention_mask=attention_mask)
+                logits=output.logits.squeeze(1)
+                if agg_logits==None:
+                    agg_logits=logits
+                else:
+                    agg_logits=agg_logits+logits
+                    
+        probs=F.softmax(agg_logits,dim=1)
+        pred_idx=torch.argmax(probs).item()
+        return class_names[pred_idx], probs.cpu().numpy()
     except Exception as e:
         logging.error("Execution failed at logits pass")
-        logging.error(traceback.format_exc())
-    return all_probs_tensor
+        logging.error(traceback.format_exc())   
 
 def max_pooling(probs):
     try:
         max_vals,_=torch.max(probs,dim=0)
         
         predicted_class_probs=torch.argmax(max_vals).item()
-        
-        class_names=["negative","neutral","positive"]
         
         predicted_label_probs = class_names[predicted_class_probs]
         logging.info("Average pooling execution successful")
@@ -87,16 +99,16 @@ def label_extract():
             with open(fullpath,"r",encoding='utf-8')as f:
                 text=f.read()
                 encoded=text_encoding(text)
-                probs=logits_pass(encoded)
-                label=max_pooling(probs)
+                label,probs=logits_pass(encoded)
                 out=label_to_csv(filepath,label,content_dir)
-                print(probs)
-                print(label)            
+                print(probs) 
+                print(label)         
                 
 # Example usage:
 if __name__ == "__main__":
-    tokenizer = BertTokenizer.from_pretrained('yiyanghkust/finbert-tone')
-    model = BERT_Classifier(num_classes=3,dropout=0.3)  # e.g. 3 classes for sentiment
+    tokenizer = AutoTokenizer.from_pretrained("yiyanghkust/finbert-tone")
+    model = AutoModelForSequenceClassification.from_pretrained("yiyanghkust/finbert-tone")
+    model.to(device)
     model.eval()
     label_extract()
 

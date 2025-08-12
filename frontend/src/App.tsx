@@ -6,7 +6,7 @@ import { scrape_run, extract_run } from "api/typescript_api/programs_run"
 import { FilterSiteInput } from "components/FilterSiteInput"
 import { RunButtons } from "components/RunButtons"
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "components/ui/card"
 import { Settings, Database, Globe } from "lucide-react"
 
 export default function App() {
