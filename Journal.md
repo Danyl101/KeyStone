@@ -316,6 +316,12 @@ and the 2 custom was deleting certain files that contain keywords in quick suces
 
 Then built a simple finbert model which had dynamic text tokenizing due to text files being too long and then was fed into the pretrained finbert model which was pre loaded with 3 classes(positive,neutral,negative) and the output from that was average pooled to clearly indicate what the sentiment of  text file is
 
+_________________________________
+
+# Iteration 1 [BERT]
+
+Decided to fine tune the finbert myself , so created a data splitter that the splits all the txt files present  into 3 (train,test,val) , then created a dataloader that takes the text from these files and reused the tokenizer and encodings used previously to encode these properly ,increased the text size to a higher amount to reduce the padding present inside each vector and thus reduce padding noise  ,currently working on a labeler that labels all the files that were collected into 3 classes to act as the supervised data for finbert to train on ,but ran into slight issues with the labeler being biased 
+
 
 
 
