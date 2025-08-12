@@ -39,6 +39,20 @@ def logits_pass(encodings):
     all_probs_tensor=torch.cat(all_probs,dim=0)
     return all_logits_tensor,all_probs_tensor
 
+def average_pooling(logits,probs):
+    avg_logits=torch.mean(logits,dim=0)
+    avg_probs=torch.mean(probs,dim=0)
+    
+    values,predicted_class_logits=torch.max(avg_logits,dim=0)
+    values,predicted_class_probs=torch.max(avg_probs,dim=0)
+    
+    class_names=["negative","neutral","positive"]
+    
+    predicted_label_logits = class_names[predicted_class_logits.item()]
+    predicted_label_probs = class_names[predicted_class_probs.item()]
+    
+    return predicted_label_logits,predicted_label_probs
+
 # Example usage:
 if __name__ == "__main__":
     tokenizer = BertTokenizer.from_pretrained('yiyanghkust/finbert-tone')
@@ -50,8 +64,14 @@ if __name__ == "__main__":
     
     # Forward pass
     logits,probs = logits_pass(encodings)
+    
+    logit_label,prob_label=average_pooling(logits,probs)
+
 
     print(logits)  # Raw prediction scores for each class
     print(probs)
+    print(logit_label)
+    print(prob_label)
+
         
         

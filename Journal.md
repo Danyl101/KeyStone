@@ -309,6 +309,14 @@ So since all the apis calls were working properly decided to move forward with r
 __________________________________
 __________________________________
 
+# Default Model [BERT]
+
+So since my ui was nearing completeion i decided to begin on the bert model , the initial issue was preprocessing which was done through 3 standard functions and 2 custom functions , the 3 standard were regex->cleantext->spacy
+and the 2 custom was deleting certain files that contain keywords in quick sucession and another to remove some trailing spaces
+
+Then built a simple finbert model which had dynamic text tokenizing due to text files being too long and then was fed into the pretrained finbert model which was pre loaded with 3 classes(positive,neutral,negative) and the output from that was average pooled to clearly indicate what the sentiment of  text file is
+
+
 
 
 
