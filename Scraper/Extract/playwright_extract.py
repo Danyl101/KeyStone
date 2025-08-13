@@ -5,7 +5,7 @@ import logging
 from playwright.async_api import async_playwright
 
 # Your custom utility
-from utils import save_file,logging
+from .utils import save_file,logging
 
 async def scrape_with_timeout(url, title ,timeout=60):
     try:

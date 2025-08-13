@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import RobustScaler
 
+scaler = RobustScaler()
 
 #Importing raw data
 data=pd.read_csv('Datasets/nifty_data.csv')
@@ -33,7 +34,6 @@ prescaleval=val_data[featurescale]
 prescaletest=test_data[featurescale]
 
 #Scaling the data
-scaler = RobustScaler()
 scaledtrain = scaler.fit_transform(prescaletrain)
 finaltrain = pd.DataFrame(scaledtrain, columns=featurescale)
 

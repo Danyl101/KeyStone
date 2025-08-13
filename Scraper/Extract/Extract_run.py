@@ -2,7 +2,7 @@ import json
 import os
 import logging
 
-from content_extract import extract_multiple_articles
+from .content_extract import extract_multiple_articles
 
 with open('Datasets/scraped_article.json', 'r') as f: #Loads json file 
     article = json.load(f) 

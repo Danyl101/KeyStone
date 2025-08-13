@@ -305,6 +305,12 @@ ___________________________________
 
 So since all the apis calls were working properly decided to move forward with react ui and build a minimal and clean ui that is enough for demo representation , further additions will be made once the full system is complete and mostly just to add polish
 
+__________________________________
+
+# Iteration 3 [REACT]
+
+So decided to create a presentable ui in the event of any demos , instead of just using react-vite we also added tailwind and shadcn to increase the aesthetics of it , especially since shadcn provides so many boilerplates for many functions , the api calls functionality didnt change though , but the input validation became more complex due to the inputs being validated outside of app and inside inputs present in components
+
 
 __________________________________
 __________________________________
@@ -321,6 +327,12 @@ _________________________________
 # Iteration 1 [BERT]
 
 Decided to fine tune the finbert myself , so created a data splitter that the splits all the txt files present  into 3 (train,test,val) , then created a dataloader that takes the text from these files and reused the tokenizer and encodings used previously to encode these properly ,increased the text size to a higher amount to reduce the padding present inside each vector and thus reduce padding noise  ,currently working on a labeler that labels all the files that were collected into 3 classes to act as the supervised data for finbert to train on ,but ran into slight issues with the labeler being biased 
+
+__________________________________
+
+# Iteration 2 [BERT]
+
+So the issue came from the fact that even though we explicitly defined finbert inside the bert model , it still trained itself and prediction was thus done by the training bert model instead of the loaded finbert , this was mitigated by adding automodels for training and for tokenizing auto tokenizer was implemented ,
 
 
 

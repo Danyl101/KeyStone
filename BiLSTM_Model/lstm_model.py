@@ -9,8 +9,8 @@ import traceback
 import gc
 
 import torch.nn.functional as F
-from lstm_dataload import train_dataset, test_dataset
-from lstm_utils import evaluate_metrics, log_cpu_memory, device
+from BiLSTM_Model.lstm_dataload import train_dataset, test_dataset
+from BiLSTM_Model.lstm_utils import evaluate_metrics, log_cpu_memory, device,plot
    
 # 1. LSTM Model Definition
 class BiLSTMModel(nn.Module):
@@ -88,7 +88,7 @@ def objective(trial):
         preds = torch.cat(preds, dim=0) #Converts datatype back for metrics evaluation
         truths = torch.cat(truths, dim=0)
 
-        mse, _, _, _, _ = evaluate_metrics(truths, preds)
+        mse, _, _, _, = evaluate_metrics(truths, preds)
         try:
             logging.info("Directory creation underway")
             os.makedirs('Checkpoints', exist_ok=True)  # Ensure directory exists
@@ -136,6 +136,32 @@ class Attention(nn.Module):
                                                                        #Squeeze remove dimension 1 [B,1,H]->[B,H]
         return context,weights
         
+def run_inference(model, dataloader, device=None, return_targets=True):
+    device=torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model=BiLSTMModel(input_size=4, hidden_size=256, dropout=0.3, num_layers=2, batch_size=32).to(device)
+    state_dict=torch.load(r"Checkpoints\nifty50_model.pt")
+    model.load_state_dict(state_dict)
+    model.to(device) 
+
+    model.eval()
+    preds = []
+    targets = []
+
+    with torch.no_grad():
+        for x, y in dataloader:
+            x = x.to(device)
+            preds_batch,_,_ = model(x)
+            preds.append(preds_batch)
+            if return_targets:
+                targets.append(y)
+            
+    preds=torch.cat(preds,dim=0).cpu().numpy()
+    targets=torch.cat(targets,dim=0).cpu().numpy()
+    plot(targets,preds)
+    if return_targets:
+        return preds, targets
+    else:
+        return preds
         
         
    

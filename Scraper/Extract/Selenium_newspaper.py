@@ -14,9 +14,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from newspaper import Article
 
 # Assuming these are defined in your own codebase
-from utils import sanitize_filename, save_file,logging,headers
+from .utils import sanitize_filename, save_file,logging,headers
 
-from playwright_extract import get_article_text_playwright
+from .playwright_extract import get_article_text_playwright
 
 
 #A function to get advanced logs by accessing the actual url 

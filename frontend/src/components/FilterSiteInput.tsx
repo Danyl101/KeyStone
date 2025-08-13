@@ -9,8 +9,8 @@ import { Loader2, Plus, Minus, CheckCircle, XCircle } from "lucide-react"
 
 interface FilterSiteInputProps {
   label: string
-  onAdd: () => Promise<void>
-  onRemove: () => Promise<void>
+  onAdd: (input:string) => Promise<void>
+  onRemove: (input:string) => Promise<void>
   disabled: boolean
 }
 
@@ -24,7 +24,7 @@ export function FilterSiteInput({ label, onAdd, onRemove, disabled }: FilterSite
   const handleAdd = async () => {
     setStatus({ loading: true, success: null })
     try {
-      await onAdd()
+      await onAdd(input)
       setStatus({ loading: false, success: true, message: `${label} "${input}" added successfully` })
       setInput("")
     } catch (e: any) {
@@ -35,7 +35,7 @@ export function FilterSiteInput({ label, onAdd, onRemove, disabled }: FilterSite
   const handleRemove = async () => {
     setStatus({ loading: true, success: null })
     try {
-      await onRemove()
+      await onRemove(input)
       setStatus({ loading: false, success: true, message: `${label} "${input}" removed successfully` })
       setInput("")
     } catch (e: any) {

@@ -3,11 +3,12 @@ set_deterministic()
 import optuna
 import torch.optim as optim
 from lstm_model import BiLSTMModel,TimeWeightedLoss,objective
+import torch
 from lstm_dataload import train_loader, val_loader,test_loader
 
 #Sets a model function to run optimal model after hyperparamters are achieved from optimization
 def train_model():
-    model=BiLSTMModel(input_size=4, hidden_size=256, dropout=0.3, num_layers=2, batch_size=32).to(device)
+    model=BiLSTMModel(input_size=4, hidden_size=128, dropout=0.3, num_layers=2, batch_size=32).to(device)
     optimizer = optim.Adam(model.parameters(), lr=8.238048741701306e-05) #Defines optimizer
     criterion_train = TimeWeightedLoss()  # Example of a custom loss function
     epochs = 75
@@ -32,7 +33,7 @@ def train_model():
     # Optional: Get predictions and true values for plotting
     test_preds, test_actuals, mse, rmse, mae, mape = predict(model, test_loader)
     
-    #torch.save(model.state_dict(), f"checkpoints/best_model_1.pt")
+    torch.save(model.state_dict(), f"checkpoints/nifty50_model.pt")
     
     print(f"MSE: {mse:.4f}, RMSE: {rmse:.4f}, MAE: {mae:.4f}, MAPE: {mape:.2f}%")
     plot(test_preds, test_actuals)  # Plot predictions vs actual values

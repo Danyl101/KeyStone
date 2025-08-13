@@ -3,8 +3,9 @@
 import { addfilter, addsite } from "api/typescript_api/add_api"
 import { removefilter, removesite } from "api/typescript_api/remove_api"
 import { scrape_run, extract_run } from "api/typescript_api/programs_run"
+import { lstm_run } from "api/typescript_api/lstm_api"
 import { FilterSiteInput } from "components/FilterSiteInput"
-import { RunButtons } from "components/RunButtons"
+import { RunButtons,LSTMButtons } from "components/RunButtons"
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "components/ui/card"
 import { Settings, Database, Globe } from "lucide-react"
@@ -13,7 +14,7 @@ export default function App() {
   const [list, setList] = useState<string[]>([])
   const [input, setInput] = useState<string>("")
 
-  const filteradd = async () => {
+  const filteradd = async (input : string) => {
     try {
       const res = await addfilter([input])
       console.log("Filter added API Response", res)
@@ -22,7 +23,7 @@ export default function App() {
     }
   }
 
-  const siteadd = async () => {
+  const siteadd = async (input :string) => {
     try {
       const res = await addsite([input])
       console.log("Site added API Response", res)
@@ -31,7 +32,7 @@ export default function App() {
     }
   }
 
-  const filterremove = async () => {
+  const filterremove = async (input :string) => {
     try {
       const res = await removefilter([input])
       console.log("Remove Filter API Response", res)
@@ -40,7 +41,7 @@ export default function App() {
     }
   }
 
-  const siteremove = async () => {
+  const siteremove = async (input :string) => {
     try {
       const res = await removesite([input])
       console.log("Remove Site API Response", res)
@@ -60,6 +61,7 @@ export default function App() {
           </div>
           <p className="text-muted-foreground text-lg">Manage your web scraping filters, sites, and operations</p>
         </div>
+        
 
         {/* Main Content */}
         <div className="grid gap-6 md:grid-cols-2">
@@ -100,6 +102,16 @@ export default function App() {
           </CardHeader>
           <CardContent>
             <RunButtons onRunScrape={scrape_run} onRunExtract={extract_run} disabled={false} />
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-center">Operations</CardTitle>
+            <CardDescription className="text-center">Execute LSTM Predictions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LSTMButtons onRunLSTM={lstm_run} disabled={false} />
           </CardContent>
         </Card>
       </div>

@@ -11,7 +11,7 @@ interface RunButtonsProps {
   disabled: boolean
 }
 
-export function RunButtons({ onRunScrape, onRunExtract, disabled }: RunButtonsProps) {
+export function RunButtons({ onRunScrape, onRunExtract,disabled }: RunButtonsProps) {
   const [status, setStatus] = useState<{ loading: boolean; success: boolean | null; message?: string }>({
     loading: false,
     success: null,
@@ -53,6 +53,8 @@ export function RunButtons({ onRunScrape, onRunExtract, disabled }: RunButtonsPr
         </Button>
       </div>
 
+      
+
       {status.success === true && (
         <Alert className="border-green-200 bg-green-50">
           <CheckCircle className="h-4 w-4 text-green-600" />
@@ -69,3 +71,39 @@ export function RunButtons({ onRunScrape, onRunExtract, disabled }: RunButtonsPr
     </div>
   )
 }
+
+interface LSTMButtonProps{
+  onRunLSTM:() =>Promise<void>
+  disabled: boolean
+}
+
+export function LSTMButtons({ onRunLSTM,disabled }: LSTMButtonProps) {
+const [status, setStatus] = useState<{ loading: boolean; success: boolean | null; message?: string }>({
+  loading: false,
+  success: null,
+})
+
+const runAction = async (action: () => Promise<void>, label: string) => {
+    setStatus({ loading: true, success: null })
+    try {
+      await action()
+      setStatus({ loading: false, success: true, message: `${label} completed successfully` })
+    } catch (e: any) {
+      setStatus({ loading: false, success: false, message: `${label} failed: ${e.message}` })
+    }
+  }
+  return(
+      <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2"></div>
+          <Button
+          onClick={() => runAction(onRunLSTM, "Run LSTM")}
+          disabled={disabled || status.loading}
+          size="lg"
+          className="h-16 text-lg"
+          variant="default"
+        >
+          {status.loading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Play className="h-5 w-5 mr-2" />}
+          Run Scrape
+        </Button>
+    </div>
+)}

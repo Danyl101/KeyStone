@@ -4,8 +4,8 @@ import traceback
 import time
 import random
 
-from Selenium_newspaper import  scroll_and_extract
-from utils import is_browser_alive, setup_driver,logging
+from .Selenium_newspaper import  scroll_and_extract
+from .utils import is_browser_alive, setup_driver,logging
    
 def extract_multiple_articles(inner_dict, max_scrolls=10):
     driver = setup_driver()  # Initialize the WebDriver

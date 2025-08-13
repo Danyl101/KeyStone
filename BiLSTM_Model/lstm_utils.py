@@ -52,7 +52,7 @@ def evaluate_metrics(y_true, y_pred):
     except Exception as e:
         logging.error(f"Error in evaluate_metrics: {e}")
         logging.debug(traceback.format_exc())
-        return None, None, None, None, None
+        return None, None, None, None
 
     return mse, rmse, mae, mape #Returns various metrics
     
@@ -99,3 +99,8 @@ def plot(test_prediction,test_actuals):
     plt.ylabel("Scaled Close Price")        
     plt.legend()
     plt.show()
+    plt.savefig(r'D:\Prediction_Model\Documentation\BiLSTM Graph_2.png')
+    
+
+        
+    
