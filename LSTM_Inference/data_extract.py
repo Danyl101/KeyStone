@@ -15,7 +15,7 @@ def extract():
     print(data.head())
 
     # Save the data to a CSV file
-    data.to_csv("frontend/src/LSTM_Inference/nifty_data.csv")
+    data.to_csv("LSTM_Inference/nifty_data.csv")
     
 if __name__=="__main__":
     extract()

@@ -88,10 +88,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #101010;
+  background-color: #939292;
   cursor: pointer;
   transition: border-color 0.25s;
+  @apply text-slate-900 bg-sky-400 hover:bg-sky-500;
 }
+  
+
 button:hover {
   border-color: #646cff;
 }

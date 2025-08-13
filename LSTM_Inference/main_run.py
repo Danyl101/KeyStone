@@ -3,6 +3,9 @@ from .data_process import preprocess
 from BiLSTM_Model.lstm_model import evaluate_metrics,plot,run_inference
 from .dataloader import true_data_loader
 import torch
+import matplotlib as plt
+import io
+import base64
 
 model=torch.load("Checkpoints/nifty50_model.pt")
 
@@ -20,8 +23,8 @@ def lstm_run():
             "mae": mae,
             "mape": mape
         },
-        "predictions": preds,
-        "targets": targets
+        "predictions": preds.tolist(),
+        "targets": targets.tolist(),
     }    
 
 if __name__=="__main__":

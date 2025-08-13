@@ -20,4 +20,30 @@ export const lstm_run = async() =>{
     }
 }
 
+export interface LSTMResponse{
+    metrics:{
+        mse:number
+        rmse:number
+        mae:number
+        mape:number
+    }
+    predictions:number[]
+    targets:number[]
+}
+
+export const lstm_return = async(): Promise<{
+    metrics: { mse: number; rmse: number; mae: number; mape: number };
+    predictions: number[];
+    targets: number[];
+}> =>{
+    const response=await fetch(
+        "http://localhost:5000/api/lstm-run"
+    )
+    if(!response.ok)
+    {
+        throw new Error(`Data never acquired from lstm ${response.status}`)
+    }
+    return await response.json()
+}
+
 

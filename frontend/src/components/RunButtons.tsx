@@ -95,15 +95,17 @@ const runAction = async (action: () => Promise<void>, label: string) => {
   return(
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2"></div>
+        <div className="flex justify-center">
           <Button
           onClick={() => runAction(onRunLSTM, "Run LSTM")}
           disabled={disabled || status.loading}
           size="lg"
-          className="h-16 text-lg"
+          className="h-16 text-lg px-4 py-2 w-1/2"
           variant="default"
         >
           {status.loading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Play className="h-5 w-5 mr-2" />}
-          Run Scrape
+          Run LSTM
         </Button>
+        </div>
     </div>
 )}

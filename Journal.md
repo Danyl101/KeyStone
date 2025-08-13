@@ -288,6 +288,12 @@ each executing their respective python files
 
 ___________________________________
 
+# Iteration 5 [API]
+
+So i built news api for the lstm inference , as in taking the saved models and having it look at past 60 days of data to predict the next 45 days of data , i mostly reused the code from the original lstm model with some tweaks here and there since they are essentially same , but all the package imports have caused python debugger to stop working and now i have to use bashlines exclusively and basically declare every program as a package to get the pathing to work
+
+___________________________________
+
 # Default Model [REACT]
 
 So changed the components section as in list editor and site editor to be aligned with the app program ,set up interfaces on both of them to properly define the parameters in functions , in App created an interface to properly define the data import coming in from api , and changed the function of all keyword (site,list,setsites,setlist) from  being a simple usestate to being a string

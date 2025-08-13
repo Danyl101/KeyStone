@@ -4,7 +4,7 @@ import json
 import torch
 from flask import Blueprint,request, jsonify
 
-from frontend.src.LSTM_Inference.main_run import lstm_run
+from LSTM_Inference.main_run import lstm_run
 
 app=Flask(__name__)
 CORS(app)

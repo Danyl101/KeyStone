@@ -8,7 +8,7 @@ def preprocess():
     #Accessing the necessary features 
     featurescale=['Close','High','Low','Open','Volume']
 
-    data=pd.read_csv('frontend/src/LSTM_Inference/nifty_data.csv')
+    data=pd.read_csv('LSTM_Inference/nifty_data.csv')
     print("Data after transformation:")
     print(data.head())
     #Defining the scaler
@@ -28,7 +28,7 @@ def preprocess():
     print(final_scaled_data.head())
 
     # Saving the scaled data to a CSV file
-    final_scaled_data.to_csv('frontend/src/LSTM_Inference/nifty_scaled.csv', index=False)
+    final_scaled_data.to_csv('LSTM_Inference/nifty_scaled.csv', index=False)
 
 if __name__=="__main__":
     preprocess()

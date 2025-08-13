@@ -9,6 +9,10 @@ import { RunButtons,LSTMButtons } from "components/RunButtons"
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "components/ui/card"
 import { Settings, Database, Globe } from "lucide-react"
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from "chart.js"
+
+ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
 export default function App() {
   const [list, setList] = useState<string[]>([])
@@ -117,4 +121,39 @@ export default function App() {
       </div>
     </div>
   )
+}
+
+interface GraphsProps{
+  predictions:number[]
+  targets:number[]
+}
+
+export function PredictionGraph({predictions,targets}:GraphsProps) {
+  const data = {
+    labels: predictions.map((_, i) => i + 1),
+    datasets: [
+      {
+        label:"Predictions",
+        data:predictions,
+        borderColor:"rgb(75,192,192)",
+        fill:false
+      },
+      {
+        label:"Targets",
+        data:targets,
+        borderColor:"rgb(255,99,132)",
+        fill:false
+      }
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: "top" as const },
+      title: { display: true, text: "Stock Price Trend" },
+    },
+  };
+
+  return <Line data={data} options={options} />;
 }
