@@ -125,10 +125,9 @@ export default function App() {
 
 interface GraphsProps{
   predictions:number[]
-  targets:number[]
 }
 
-export function PredictionGraph({predictions,targets}:GraphsProps) {
+export function PredictionGraph({predictions}:GraphsProps) {
   const data = {
     labels: predictions.map((_, i) => i + 1),
     datasets: [
@@ -138,12 +137,6 @@ export function PredictionGraph({predictions,targets}:GraphsProps) {
         borderColor:"rgb(75,192,192)",
         fill:false
       },
-      {
-        label:"Targets",
-        data:targets,
-        borderColor:"rgb(255,99,132)",
-        fill:false
-      }
     ],
   };
 

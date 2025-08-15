@@ -17,9 +17,10 @@ bp=Blueprint('lstm_api',__name__)
 def scrape():
     try:
         data=lstm_run() #Runs python file from backend
+        print("DEBUG: lstm_run returned:", data)
         return jsonify({"status":"success","data":data})
     except Exception as e:
-        logging.error(f"Failed to run scraping {e}")
+        logging.error(f"Failed to run lstm {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
         
 if __name__ == "__main__":

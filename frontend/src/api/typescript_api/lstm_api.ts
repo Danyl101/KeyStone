@@ -20,7 +20,7 @@ export const lstm_run = async() =>{
     }
 }
 
-export interface LSTMResponse{
+export interface LSTM_Response{
     metrics:{
         mse:number
         rmse:number
@@ -32,9 +32,7 @@ export interface LSTMResponse{
 }
 
 export const lstm_return = async(): Promise<{
-    metrics: { mse: number; rmse: number; mae: number; mape: number };
     predictions: number[];
-    targets: number[];
 }> =>{
     const response=await fetch(
         "http://localhost:5000/api/lstm-run"

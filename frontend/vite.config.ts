@@ -12,8 +12,9 @@ export default defineConfig({
     alias: {
       api: path.resolve(__dirname, 'src/api'),
       components: path.resolve(__dirname, 'src/components'),
-      typescript_api: path.resolve(__dirname, 'src/typescript_api'),
+      typescript_api: path.resolve(__dirname, 'src/api/typescript_api'),
        "@": path.resolve(__dirname, "./src"),
+      lstm_api:path.resolve(__dirname,"/src/api/typescript_api/lstm_api")
     },
   },
 });

@@ -58,7 +58,7 @@ def logits_pass(encodings): #Function to calculate sentiment of a text chunk
                 if agg_logits==None:
                     agg_logits=logits #Adds logits initially
                 else:
-                    agg_logits=agg_logits+logits #Summises logits 
+                    agg_logits=agg_logits+logits #Sumises logits 
                     
         probs=F.softmax(agg_logits,dim=1) #Converts logits into probability by quantifying with softmax
         pred_idx=torch.argmax(probs).item() #Returns the max sentiment value from chunk alongside its index

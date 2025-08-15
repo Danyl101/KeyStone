@@ -42,8 +42,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 #Function to evaluate metrics
 def evaluate_metrics(y_true, y_pred):
     try:
-        y_true = y_true.detach().cpu().numpy() #Detaches array from cpu and converts into numpy
-        y_pred = y_pred.detach().cpu().numpy()
+        if isinstance(y_pred, torch.Tensor):
+            y_pred = y_pred.detach().cpu().numpy()#Detaches array from cpu and converts into numpy
+            
+        if isinstance(y_true,torch.Tensor):
+            y_true =y_true.detach.cpu().numpy()
         
         mse = mean_squared_error(y_true, y_pred) #Calculate Metrics
         rmse = mse ** 0.5
@@ -98,7 +101,6 @@ def plot(test_prediction,test_actuals):
     plt.xlabel("Time")
     plt.ylabel("Scaled Close Price")        
     plt.legend()
-    plt.show()
     plt.savefig(r'D:\Prediction_Model\Documentation\BiLSTM Graph_2.png')
     
 

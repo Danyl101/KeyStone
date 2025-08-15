@@ -104,7 +104,7 @@ const runAction = async (action: () => Promise<void>, label: string) => {
           variant="default"
         >
           {status.loading ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Play className="h-5 w-5 mr-2" />}
-          Run LSTM
+          Run Inference
         </Button>
         </div>
     </div>

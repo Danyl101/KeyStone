@@ -290,7 +290,13 @@ ___________________________________
 
 # Iteration 5 [API]
 
-So i built news api for the lstm inference , as in taking the saved models and having it look at past 60 days of data to predict the next 45 days of data , i mostly reused the code from the original lstm model with some tweaks here and there since they are essentially same , but all the package imports have caused python debugger to stop working and now i have to use bashlines exclusively and basically declare every program as a package to get the pathing to work
+So i built new api for the lstm inference , as in taking the saved models and having it look at past 60 days of data to predict the next 45 days of data , i mostly reused the code from the original lstm model with some tweaks here and there since they are essentially same , but all the package imports have caused python debugger to stop working and now i have to use bashlines exclusively and basically declare every program as a package to get the pathing to work
+
+___________________________________
+
+# Iteration 6 [API]
+
+So created an api to return the graph and metrics that were created by the lstm inference , i kept running into issues here and there like plot gui forcing flask to break , and responses not being sent to the frontend
 
 ___________________________________
 
@@ -317,7 +323,6 @@ __________________________________
 
 So decided to create a presentable ui in the event of any demos , instead of just using react-vite we also added tailwind and shadcn to increase the aesthetics of it , especially since shadcn provides so many boilerplates for many functions , the api calls functionality didnt change though , but the input validation became more complex due to the inputs being validated outside of app and inside inputs present in components
 
-
 __________________________________
 __________________________________
 
@@ -338,7 +343,7 @@ __________________________________
 
 # Iteration 2 [BERT]
 
-So the issue came from the fact that even though we explicitly defined finbert inside the bert model , it still trained itself and prediction was thus done by the training bert model instead of the loaded finbert , this was mitigated by adding automodels for training and for tokenizing auto tokenizer was implemented ,
+So the issue came from the fact that even though we explicitly defined finbert inside the bert model , it still trained itself and prediction was thus done by the training bert model instead of the loaded finbert , this was mitigated by adding automodels that were loaded with finbert for classification and for tokenizing auto tokenizer which also had finbert was implemented ,
 
 
 
