@@ -83,7 +83,7 @@ def translate(texts):
 
 def save_file(content,filename):
     for text,name in zip(content,filename):
-        full_text="".join(text)
+        full_text = " ".join([item for sublist in text for item in sublist])
         name_only, ext = os.path.splitext(name)  # splits "file.txt" -> ("file", ".txt")
         changed_filename = name_only + "_french.txt"
         filepath=os.path.join('BERT_Content',changed_filename)
