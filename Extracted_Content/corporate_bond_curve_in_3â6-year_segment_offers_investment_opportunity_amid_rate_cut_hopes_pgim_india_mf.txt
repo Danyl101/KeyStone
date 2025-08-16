@@ -1,0 +1,1 @@
+e/svg+xml;charset=UTF-8,%3csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns=' d='M1 1.5L6 6.5L11 1.5' stroke='%23013975' stroke-width='2'/%3e%3c/svg%3e
